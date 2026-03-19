@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Chewing Kinematics — Análisis profesional de cinemática masticatoria en 3D" />
+  <title>Chewing Kinematics — Cinemática Masticatoria</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header id="app-header">
+    <div class="header-left">
+      <h1>Chewing Kinematics</h1>
+      <span class="subtitle">Cinemática Masticatoria | Análisis Profesional</span>
+    </div>
+    <div class="header-right">
+      <div class="unit-selector">
+        <label>Unidad:</label>
+        <select id="unit-select">
+          <option value="mm" selected>Milímetros (mm)</option>
+          <option value="µm">Micrómetros (µm)</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- Toolbar -->
+  <div id="toolbar">
+    <div class="toolbar-row">
+      <button id="btn-open" class="btn btn-primary">📂 Abrir Archivo</button>
+      <input type="file" id="file-input" accept=".txt,.csv,.dat" hidden />
+      <select id="select-2d" class="toolbar-select" disabled>
+        <option>Distancia A-B en X (mm)</option>
+      </select>
+      <button id="btn-add-marker" class="btn btn-outline" disabled>📌 Agregar Marcador</button>
+      <button id="btn-clear-markers" class="btn btn-outline" disabled>🗑 Borrar Marcadores</button>
+      <button id="btn-select-zone" class="btn btn-teal" disabled>📐 Seleccionar Zona</button>
+      <button id="btn-auto-cycles" class="btn btn-green" disabled>⚡ Auto Ciclos</button>
+      <button id="btn-stats" class="btn btn-orange" disabled>📊 Estadísticas</button>
+      <button id="btn-export-img" class="btn btn-outline" disabled>📷 Exportar Imagen</button>
+    </div>
+    <div class="toolbar-row">
+      <button id="btn-validate" class="btn btn-green-alt" disabled>✓ Validar</button>
+      <button id="btn-filters" class="btn btn-purple" disabled>⚙ Filtros</button>
+      <button id="btn-save-session" class="btn btn-blue" disabled>💾 Guardar Sesion</button>
+      <button id="btn-load-session" class="btn btn-green-dark">📂 Cargar Sesion</button>
+      <input type="file" id="session-input" accept=".json" hidden />
+      <button id="btn-export-excel" class="btn btn-indigo" disabled>📊 Generar Reporte</button>
+      <button id="btn-info" class="btn btn-outline">ℹ Recomendaciones</button>
+    </div>
+    <!-- 3D Controls -->
+    <div class="toolbar-row" id="controls-3d" style="display:none">
+      <label class="control-label">3D:</label>
+      <select id="select-3d-view" class="toolbar-select small">
+        <option value="30">Vista: 30°</option>
+        <option value="60">Vista: 60°</option>
+        <option value="90">Vista: 90°</option>
+      </select>
+      <button id="btn-smooth" class="btn btn-outline small">🔄 Suavizar</button>
+      <select id="select-smooth" class="toolbar-select small">
+        <option value="1">Sin suavizado</option>
+        <option value="3">Leve (3)</option>
+        <option value="7" selected>Medio (7)</option>
+        <option value="15">Fuerte (15)</option>
+      </select>
+      <button id="btn-center" class="btn btn-outline small">⊕ Centrar Origen</button>
+      <button id="btn-normalize" class="btn btn-outline small">📏 Normalizar 20pts</button>
+      <button id="btn-invert-y" class="btn btn-outline small">↕ Invertir Y</button>
+      <button id="btn-invert-x" class="btn btn-outline small">↔ Invertir X</button>
+      <button id="btn-export-3d" class="btn btn-red small">🌐 Exportar 3D</button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <main id="content">
+    <div class="panel-container">
+      <!-- 2D Plot -->
+      <div class="panel" id="panel-2d">
+        <div id="plot-2d" class="plot-area"></div>
+      </div>
+      <!-- 3D Plot -->
+      <div class="panel" id="panel-3d">
+        <div id="plot-3d" class="plot-area"></div>
+        <div id="cycle-count-badge" class="badge" style="display:none"></div>
+      </div>
+    </div>
+
+    <!-- Cycle Table -->
+    <section id="cycle-section" style="display:none">
+      <div class="section-header">
+        <h2>ANÁLISIS DE CICLOS MASTICATORIOS</h2>
+        <div class="table-actions">
+          <button id="btn-select-all" class="btn btn-outline small">✔ Seleccionar Todos</button>
+          <button id="btn-deselect-all" class="btn btn-outline small">✖ Deseleccionar Todos</button>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table id="cycle-table">
+          <thead><tr id="cycle-thead"></tr></thead>
+          <tbody id="cycle-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Log -->
+    <section id="log-section">
+      <h2>REGISTRO CLÍNICO</h2>
+      <div id="log-output">
+        <p class="log-hint">Abre un archivo de datos para comenzar.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Filter Modal -->
+  <div id="filter-modal" class="modal" style="display:none">
+    <div class="modal-content">
+      <h3>Filtros Configurables</h3>
+      <div class="filter-profile">
+        <label>Perfil:</label>
+        <select id="filter-profile-select">
+          <option value="custom">Personalizado</option>
+          <option value="adulto">Adulto</option>
+          <option value="pediatrico">Pediátrico</option>
+        </select>
+      </div>
+      <div id="filter-fields"></div>
+      <div class="modal-buttons">
+        <button id="btn-apply-filters" class="btn btn-primary">Aplicar Filtros</button>
+        <button id="btn-cancel-filters" class="btn btn-outline">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info Modal -->
+  <div id="info-modal" class="modal" style="display:none">
+    <div class="modal-content wide">
+      <h3>Recomendaciones Clínicas</h3>
+      <div class="info-cards">
+        <div class="info-card">
+          <h4>📍 Configuración de Marcadores</h4>
+          <ul>
+            <li><b>Marcador A:</b> Punto de referencia en maxilar inferior</li>
+            <li><b>Marcador B:</b> Mentón / zona inferior de la mandíbula</li>
+            <li>Asegurar que los marcadores estén firmes y no se muevan durante la captura</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h4>🎬 Condiciones de Grabación</h4>
+          <ul>
+            <li>Paciente sentado en posición natural, sin apoyo de cabeza</li>
+            <li>Mínimo <b>20 ciclos masticatorios</b> por sesión (idealmente 30+)</li>
+            <li>Usar alimento estandarizado (goma de mascar sin azúcar)</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h4>⚙ Calibración Inicial</h4>
+          <ul>
+            <li>Si el movimiento aparece invertido, use <b>Invertir X</b> o <b>Invertir Y</b></li>
+            <li>X = lateral, Y = vertical (apertura/cierre), Z = anteroposterior</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h4>📊 Buenas Prácticas de Análisis</h4>
+          <ul>
+            <li>Ejecute <b>Auto Ciclos</b> para detección automática</li>
+            <li>Use <b>Validar</b> para detectar artefactos</li>
+            <li>Aplique <b>Filtros</b> para descartar ciclos atípicos</li>
+            <li>Duración típica: 200-2000ms | Excursión vertical: >2mm</li>
+          </ul>
+        </div>
+      </div>
+      <button id="btn-close-info" class="btn btn-primary" style="margin-top:16px">Cerrar</button>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
