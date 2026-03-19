@@ -10,11 +10,11 @@
   <link rel="stylesheet" href="/src/style.css" />
 </head>
 <body>
-  <!-- ═══ SIDEBAR ═══ -->
+  <!-- SIDEBAR -->
   <aside id="sidebar">
     <div class="sidebar-brand">
       <div class="brand-icon">
-        <svg viewBox="0 0 32 32" fill="none"><path d="M16 2C8.27 2 2 8.27 2 16s6.27 14 14 14 14-6.27 14-14S23.73 2 16 2z" fill="url(#g1)"/><path d="M10 20c2-4 4-8 6-8s4 4 6 8" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><path d="M8 16h16" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><defs><linearGradient id="g1" x1="2" y1="2" x2="30" y2="30"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs></svg>
+        <svg viewBox="0 0 32 32" fill="none"><path d="M16 2C8.27 2 2 8.27 2 16s6.27 14 14 14 14-6.27 14-14S23.73 2 16 2z" fill="url(#g1)"/><path d="M10 20c2-4 4-8 6-8s4 4 6 8" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><path d="M8 16h16" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><defs><linearGradient id="g1" x1="2" y1="2" x2="30" y2="30"><stop stop-color="#4f46e5"/><stop offset="1" stop-color="#0891b2"/></linearGradient></defs></svg>
       </div>
       <div class="brand-text">
         <span class="brand-name">Chewing<br/>Kinematics</span>
@@ -25,50 +25,28 @@
     <nav class="sidebar-nav">
       <div class="nav-group">
         <span class="nav-group-label">DATOS</span>
-        <button id="btn-open" class="nav-btn" data-tooltip="Abrir archivo de datos">
-          <span class="nav-icon">📂</span><span class="nav-label">Abrir Archivo</span>
-        </button>
+        <button id="btn-open" class="nav-btn"><span class="nav-icon" id="ico-folder"></span><span class="nav-label">Abrir Archivo</span></button>
         <input type="file" id="file-input" accept=".txt,.csv,.dat" hidden />
-        <button id="btn-load-session" class="nav-btn" data-tooltip="Cargar sesión guardada">
-          <span class="nav-icon">📥</span><span class="nav-label">Cargar Sesión</span>
-        </button>
+        <button id="btn-load-session" class="nav-btn"><span class="nav-icon" id="ico-download"></span><span class="nav-label">Cargar Sesión</span></button>
         <input type="file" id="session-input" accept=".json" hidden />
       </div>
-
       <div class="nav-group">
         <span class="nav-group-label">ANÁLISIS</span>
-        <button id="btn-auto-cycles" class="nav-btn accent-green" disabled>
-          <span class="nav-icon">⚡</span><span class="nav-label">Auto Ciclos</span>
-        </button>
-        <button id="btn-validate" class="nav-btn accent-emerald" disabled>
-          <span class="nav-icon">✓</span><span class="nav-label">Validar</span>
-        </button>
-        <button id="btn-filters" class="nav-btn accent-purple" disabled>
-          <span class="nav-icon">⚙</span><span class="nav-label">Filtros</span>
-        </button>
-        <button id="btn-stats" class="nav-btn accent-amber" disabled>
-          <span class="nav-icon">📊</span><span class="nav-label">Estadísticas</span>
-        </button>
+        <button id="btn-auto-cycles" class="nav-btn accent-green" disabled><span class="nav-icon" id="ico-zap"></span><span class="nav-label">Auto Ciclos</span></button>
+        <button id="btn-validate" class="nav-btn accent-emerald" disabled><span class="nav-icon" id="ico-check"></span><span class="nav-label">Validar</span></button>
+        <button id="btn-filters" class="nav-btn accent-purple" disabled><span class="nav-icon" id="ico-settings"></span><span class="nav-label">Filtros</span></button>
+        <button id="btn-stats" class="nav-btn accent-amber" disabled><span class="nav-icon" id="ico-barchart"></span><span class="nav-label">Estadísticas</span></button>
       </div>
-
       <div class="nav-group">
         <span class="nav-group-label">EXPORTAR</span>
-        <button id="btn-save-session" class="nav-btn" disabled>
-          <span class="nav-icon">💾</span><span class="nav-label">Guardar Sesión</span>
-        </button>
-        <button id="btn-export-excel" class="nav-btn accent-indigo" disabled>
-          <span class="nav-icon">📋</span><span class="nav-label">Reporte Excel</span>
-        </button>
-        <button id="btn-export-img" class="nav-btn" disabled>
-          <span class="nav-icon">📷</span><span class="nav-label">Exportar Imagen</span>
-        </button>
+        <button id="btn-save-session" class="nav-btn" disabled><span class="nav-icon" id="ico-save"></span><span class="nav-label">Guardar Sesión</span></button>
+        <button id="btn-export-excel" class="nav-btn accent-indigo" disabled><span class="nav-icon" id="ico-clipboard"></span><span class="nav-label">Reporte Excel</span></button>
+        <button id="btn-export-img" class="nav-btn" disabled><span class="nav-icon" id="ico-camera"></span><span class="nav-label">Exportar Imagen</span></button>
       </div>
     </nav>
 
     <div class="sidebar-footer">
-      <button id="btn-info" class="nav-btn">
-        <span class="nav-icon">ℹ️</span><span class="nav-label">Recomendaciones</span>
-      </button>
+      <button id="btn-info" class="nav-btn"><span class="nav-icon" id="ico-info"></span><span class="nav-label">Recomendaciones</span></button>
       <div class="sidebar-unit">
         <select id="unit-select">
           <option value="mm" selected>mm</option>
@@ -78,9 +56,8 @@
     </div>
   </aside>
 
-  <!-- ═══ MAIN CONTENT ═══ -->
+  <!-- MAIN -->
   <main id="app-main">
-    <!-- TOP BAR -->
     <header id="topbar">
       <div class="topbar-left">
         <select id="select-2d" class="topbar-select" disabled>
@@ -93,149 +70,94 @@
         <span id="freq-badge" class="meta-badge"></span>
       </div>
       <div class="topbar-right" id="controls-3d" style="display:none">
-        <button id="btn-smooth" class="chip-btn" title="Suavizar">Suavizar</button>
+        <button id="btn-smooth" class="chip-btn">Suavizar</button>
         <select id="select-smooth" class="chip-select">
           <option value="1">Off</option>
           <option value="3">Leve</option>
           <option value="7" selected>Medio</option>
           <option value="15">Fuerte</option>
         </select>
-        <button id="btn-invert-y" class="chip-btn" title="Invertir Y">↕Y</button>
-        <button id="btn-invert-x" class="chip-btn" title="Invertir X">↔X</button>
-        <button id="btn-center" class="chip-btn" title="Centrar">⊕</button>
-        <button id="btn-normalize" class="chip-btn" title="Normalizar 20pts">20p</button>
-        <button id="btn-export-3d" class="chip-btn accent" title="Exportar 3D">3D↗</button>
+        <button id="btn-invert-y" class="chip-btn">↕Y</button>
+        <button id="btn-invert-x" class="chip-btn">↔X</button>
+        <button id="btn-center" class="chip-btn">Centrar</button>
+        <button id="btn-normalize" class="chip-btn">20pts</button>
+        <button id="btn-export-3d" class="chip-btn accent">3D Export</button>
       </div>
     </header>
 
-    <!-- HERO EMPTY STATE -->
+    <!-- HERO -->
     <section id="hero-empty">
       <div class="hero-content">
         <div class="hero-icon-ring">
           <svg viewBox="0 0 80 80" fill="none" width="80" height="80">
-            <circle cx="40" cy="40" r="38" stroke="url(#hg)" stroke-width="2" opacity="0.5"/>
+            <circle cx="40" cy="40" r="38" stroke="url(#hg)" stroke-width="2" opacity="0.4"/>
             <path d="M20 50c5-12 10-24 20-24s15 12 20 24" stroke="url(#hg)" stroke-width="3" stroke-linecap="round"/>
-            <circle cx="40" cy="26" r="3" fill="#6366f1"/>
-            <defs><linearGradient id="hg" x1="0" y1="0" x2="80" y2="80"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
+            <circle cx="40" cy="26" r="3" fill="#4f46e5"/>
+            <defs><linearGradient id="hg" x1="0" y1="0" x2="80" y2="80"><stop stop-color="#4f46e5"/><stop offset="1" stop-color="#0891b2"/></linearGradient></defs>
           </svg>
         </div>
         <h2>Bienvenido a Chewing Kinematics</h2>
         <p>Plataforma de análisis de cinemática masticatoria en 3D.<br/>Sube un archivo <code>.txt</code> de datos del sensor para comenzar.</p>
         <button id="btn-hero-open" class="hero-btn">
-          <span>📂</span> Abrir Archivo de Datos
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hero-btn-icon"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          Abrir Archivo de Datos
         </button>
         <div class="hero-features">
-          <div class="hero-feature"><span>⚡</span>Detección automática de ciclos</div>
-          <div class="hero-feature"><span>📈</span>Visualización 2D y 3D interactiva</div>
-          <div class="hero-feature"><span>📊</span>30+ métricas por ciclo</div>
-          <div class="hero-feature"><span>📋</span>Exportación Excel compatible</div>
+          <div class="hero-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="feat-ico"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Detección automática de ciclos</div>
+          <div class="hero-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="feat-ico"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Visualización 2D y 3D interactiva</div>
+          <div class="hero-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="feat-ico"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>30+ métricas por ciclo</div>
+          <div class="hero-feature"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="feat-ico"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>Exportación Excel compatible</div>
         </div>
       </div>
     </section>
 
-    <!-- WORKSPACE (hidden until file loaded) -->
+    <!-- WORKSPACE -->
     <section id="workspace" style="display:none">
-      <!-- Summary Cards -->
       <div id="summary-cards" style="display:none">
-        <div class="summary-card" id="card-cycles">
-          <div class="card-icon">🔄</div>
-          <div class="card-body">
-            <span class="card-value" id="val-cycles">—</span>
-            <span class="card-label">Ciclos Detectados</span>
-          </div>
-        </div>
-        <div class="summary-card" id="card-laterality">
-          <div class="card-icon">↔️</div>
-          <div class="card-body">
-            <span class="card-value" id="val-laterality">—</span>
-            <span class="card-label">Lateralidad (I/D)</span>
-          </div>
-        </div>
-        <div class="summary-card" id="card-duration">
-          <div class="card-icon">⏱</div>
-          <div class="card-body">
-            <span class="card-value" id="val-duration">—</span>
-            <span class="card-label">Duración Media</span>
-          </div>
-        </div>
-        <div class="summary-card" id="card-vertical">
-          <div class="card-icon">📏</div>
-          <div class="card-body">
-            <span class="card-value" id="val-vertical">—</span>
-            <span class="card-label">Excursión Vertical</span>
-          </div>
-        </div>
-        <div class="summary-card" id="card-reliability">
-          <div class="card-icon">✅</div>
-          <div class="card-body">
-            <span class="card-value" id="val-reliability">—</span>
-            <span class="card-label">Confiabilidad</span>
-          </div>
-        </div>
+        <div class="summary-card"><div class="card-icon" id="ico-card-cycles"></div><div class="card-body"><span class="card-value" id="val-cycles">—</span><span class="card-label">Ciclos Detectados</span></div></div>
+        <div class="summary-card"><div class="card-icon" id="ico-card-lat"></div><div class="card-body"><span class="card-value" id="val-laterality">—</span><span class="card-label">Lateralidad (I/D)</span></div></div>
+        <div class="summary-card"><div class="card-icon" id="ico-card-dur"></div><div class="card-body"><span class="card-value" id="val-duration">—</span><span class="card-label">Duración Media</span></div></div>
+        <div class="summary-card"><div class="card-icon" id="ico-card-vert"></div><div class="card-body"><span class="card-value" id="val-vertical">—</span><span class="card-label">Excursión Vertical</span></div></div>
+        <div class="summary-card"><div class="card-icon" id="ico-card-rel"></div><div class="card-body"><span class="card-value" id="val-reliability">—</span><span class="card-label">Confiabilidad</span></div></div>
       </div>
 
-      <!-- Plots -->
       <div class="plots-grid">
         <div class="plot-card">
-          <div class="plot-card-header">
-            <h3>Señal 2D</h3>
-          </div>
+          <div class="plot-card-header"><h3>Señal 2D</h3></div>
           <div id="plot-2d" class="plot-area"></div>
-          <!-- Stats overlay goes here -->
         </div>
         <div class="plot-card">
-          <div class="plot-card-header">
-            <h3>Trayectoria 3D</h3>
-            <span id="cycle-count-badge" class="count-badge" style="display:none"></span>
-          </div>
+          <div class="plot-card-header"><h3>Trayectoria 3D</h3><span id="cycle-count-badge" class="count-badge" style="display:none"></span></div>
           <div id="plot-3d" class="plot-area"></div>
         </div>
       </div>
 
-      <!-- Cycle Table -->
       <div class="table-card" id="cycle-section" style="display:none">
         <div class="table-card-header">
           <h3>Análisis de Ciclos Masticatorios</h3>
           <div class="table-actions">
-            <button id="btn-select-all" class="micro-btn">✔ Todos</button>
-            <button id="btn-deselect-all" class="micro-btn">✖ Ninguno</button>
+            <button id="btn-select-all" class="micro-btn">Seleccionar Todos</button>
+            <button id="btn-deselect-all" class="micro-btn">Deseleccionar</button>
           </div>
         </div>
         <div class="table-scroll">
-          <table id="cycle-table">
-            <thead><tr id="cycle-thead"></tr></thead>
-            <tbody id="cycle-tbody"></tbody>
-          </table>
+          <table id="cycle-table"><thead><tr id="cycle-thead"></tr></thead><tbody id="cycle-tbody"></tbody></table>
         </div>
       </div>
     </section>
 
-    <!-- Clinical Log -->
     <footer id="log-bar">
-      <div class="log-header">
-        <span class="log-title">REGISTRO CLÍNICO</span>
-        <button id="btn-clear-log" class="micro-btn">Limpiar</button>
-      </div>
+      <div class="log-header"><span class="log-title">REGISTRO CLÍNICO</span><button id="btn-clear-log" class="micro-btn">Limpiar</button></div>
       <div id="log-output"></div>
     </footer>
   </main>
 
-  <!-- ═══ FILTER MODAL ═══ -->
+  <!-- FILTER MODAL -->
   <div id="filter-modal" class="modal-overlay" style="display:none">
     <div class="modal-card">
-      <div class="modal-header">
-        <h3>⚙ Filtros de Ciclos</h3>
-        <button class="modal-close" id="btn-cancel-filters">✕</button>
-      </div>
+      <div class="modal-header"><h3>Filtros de Ciclos</h3><button class="modal-close" id="btn-cancel-filters"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
       <div class="modal-body">
-        <div class="filter-profile-bar">
-          <label>Perfil:</label>
-          <select id="filter-profile-select">
-            <option value="custom">Personalizado</option>
-            <option value="adulto">Adulto</option>
-            <option value="pediatrico">Pediátrico</option>
-          </select>
-        </div>
+        <div class="filter-profile-bar"><label>Perfil:</label><select id="filter-profile-select"><option value="custom">Personalizado</option><option value="adulto">Adulto</option><option value="pediatrico">Pediátrico</option></select></div>
         <div id="filter-fields"></div>
       </div>
       <div class="modal-footer">
@@ -245,35 +167,16 @@
     </div>
   </div>
 
-  <!-- ═══ INFO MODAL ═══ -->
+  <!-- INFO MODAL -->
   <div id="info-modal" class="modal-overlay" style="display:none">
     <div class="modal-card wide">
-      <div class="modal-header">
-        <h3>ℹ️ Recomendaciones Clínicas</h3>
-        <button class="modal-close" id="btn-close-info">✕</button>
-      </div>
+      <div class="modal-header"><h3>Recomendaciones Clínicas</h3><button class="modal-close" id="btn-close-info"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
       <div class="modal-body">
         <div class="info-grid">
-          <div class="info-item">
-            <div class="info-icon">📍</div>
-            <h4>Marcadores</h4>
-            <p><b>A:</b> Referencia maxilar inferior.<br/><b>B:</b> Mentón/mandíbula inferior.<br/>Asegurar fijación firme.</p>
-          </div>
-          <div class="info-item">
-            <div class="info-icon">🎬</div>
-            <h4>Grabación</h4>
-            <p>Posición natural, sin apoyo.<br/>Mínimo <b>20 ciclos</b> (ideal 30+).<br/>Goma de mascar sin azúcar.</p>
-          </div>
-          <div class="info-item">
-            <div class="info-icon">⚙</div>
-            <h4>Calibración</h4>
-            <p>Use <b>Invertir X/Y</b> si el movimiento aparece invertido.<br/>X=lateral, Y=vertical, Z=AP.</p>
-          </div>
-          <div class="info-item">
-            <div class="info-icon">📊</div>
-            <h4>Análisis</h4>
-            <p>Use <b>Auto Ciclos → Validar → Filtros</b>.<br/>Duración típica: 200-2000ms.<br/>Excursión vertical: >2mm.</p>
-          </div>
+          <div class="info-item"><div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></div><h4>Marcadores</h4><p><b>A:</b> Referencia maxilar inferior.<br/><b>B:</b> Mentón/mandíbula inferior.<br/>Asegurar fijación firme.</p></div>
+          <div class="info-item"><div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><h4>Grabación</h4><p>Posición natural, sin apoyo.<br/>Mínimo <b>20 ciclos</b> (ideal 30+).<br/>Goma de mascar sin azúcar.</p></div>
+          <div class="info-item"><div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4"/></svg></div><h4>Calibración</h4><p>Use <b>Invertir X/Y</b> si el movimiento aparece invertido.<br/>X=lateral, Y=vertical, Z=AP.</p></div>
+          <div class="info-item"><div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg></div><h4>Análisis</h4><p>Use <b>Auto Ciclos → Validar → Filtros</b>.<br/>Duración típica: 200-2000ms.<br/>Excursión vertical: >2mm.</p></div>
         </div>
       </div>
     </div>
