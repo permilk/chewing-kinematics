@@ -22,6 +22,7 @@ const state = {
   showStats: false,
   lastFilters: {},
   fileName: '',
+  selectedCycleIdx: -1,
 };
 
 const $ = (id) => document.getElementById(id);
@@ -85,6 +86,11 @@ function wireEvents() {
   $('btn-cancel-filters').addEventListener('click', () => $('filter-modal').style.display = 'none');
   $('filter-profile-select').addEventListener('change', onProfileChange);
   $('btn-clear-log').addEventListener('click', () => { $('log-output').innerHTML = ''; });
+  $('btn-close-detail').addEventListener('click', () => {
+    $('cycle-detail').style.display = 'none';
+    state.selectedCycleIdx = -1;
+    clearActiveRow();
+  });
   for (const m of document.querySelectorAll('.modal-overlay')) {
     m.addEventListener('click', (e) => { if (e.target === m) m.style.display = 'none'; });
   }
@@ -311,6 +317,8 @@ function runAutoCycles() {
   $('cycle-section').style.display='block';
   $('summary-cards').style.display='grid';
   populateTable(); update2D(); update3D();
+  // Scroll table into view
+  setTimeout(() => $('cycle-section').scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
 }
 
 function updateCards(en,nI,nD) {
@@ -365,8 +373,21 @@ function populateTable() {
       <td class="${ladoCls}">${c.lado}</td>
       ${nums.map(([v, d]) => `<td>${rd(v, d)}</td>`).join('')}
     `;
+
+    // Row click → show detail panel
+    tr.addEventListener('click', (e) => {
+      if (e.target.type === 'checkbox') return; // don't trigger on checkbox
+      state.selectedCycleIdx = i;
+      clearActiveRow();
+      tr.classList.add('active-row');
+      showCycleDetail(c, i);
+    });
+
     tbody.appendChild(tr);
   }
+
+  // Update selected count
+  updateSelectedCount();
 
   tbody.querySelectorAll('.cycle-cb').forEach(cb => {
     cb.addEventListener('change', e => {
@@ -374,8 +395,82 @@ function populateTable() {
       state.cycles[idx].enabled = e.target.checked;
       e.target.closest('tr').classList.toggle('disabled', !e.target.checked);
       update2D(); update3D(); refreshCards();
+      updateSelectedCount();
     });
   });
+}
+
+function clearActiveRow() {
+  document.querySelectorAll('#cycle-tbody tr.active-row').forEach(r => r.classList.remove('active-row'));
+}
+
+function updateSelectedCount() {
+  const en = state.cycles.filter(c => c.enabled).length;
+  const el = $('selected-count');
+  if (el) el.textContent = `${en}/${state.cycles.length} activos`;
+}
+
+function showCycleDetail(c, idx) {
+  const s = state.unit;
+  const color = palette(state.cycles.length)[idx];
+  $('detail-title').innerHTML = `Ciclo C${c.cycle} — <span style="color:${color}">${c.lado}</span> — ${Math.round(c.dur_ms)}ms`;
+  $('cycle-detail').style.display = 'block';
+
+  const body = $('detail-body');
+  body.innerHTML = `
+    <div class="detail-section">
+      <div class="detail-section-title">Tiempos</div>
+      ${dRow('Duración total', `${rd(c.dur_ms,0)} ms`)}
+      ${dRow('T. Apertura', `${rd(c.t_opening,0)} ms`)}
+      ${dRow('T. Cierre', `${rd(c.t_closing,0)} ms`)}
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Velocidades</div>
+      ${dRow('V. Apertura', `${rd(c.vel_opening,2)} ${s}/s`)}
+      ${dRow('V. Cierre', `${rd(c.vel_closing,2)} ${s}/s`)}
+      ${dRow('V. Promedio', `${rd(c.vel_avg,2)} ${s}/s`)}
+      ${dRow('V. Máxima', `${rd(c.vel_max,2)} ${s}/s`)}
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Distancias</div>
+      ${dRow('Dist X', `${rd(c.dist_x,2)} ${s}`)}
+      ${dRow('Dist Y', `${rd(c.dist_y,2)} ${s}`)}
+      ${dRow('Dist Z', `${rd(c.dist_z,2)} ${s}`)}
+      ${dRow('Dist 3D', `${rd(c.dist_3d,2)} ${s}`)}
+      ${dRow('Hipotenusa', `${rd(c.hypotenuse,2)} ${s}`)}
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Excursiones</div>
+      ${dRow('Max Vertical', `${rd(c.max_vert,2)} ${s}`)}
+      ${dRow('Max Horizontal', `${rd(c.max_horiz,2)} ${s}`)}
+      ${dRow('Max Sagital', `${rd(c.max_sagit,2)} ${s}`)}
+      ${dRow('Working Exc.', `${rd(c.working_excursion,2)} ${s}`)}
+      ${dRow('Balancing Exc.', `${rd(c.balancing_excursion,2)} ${s}`)}
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Rangos</div>
+      ${dRow('Vert Min', rd(c.vert_min,2))}
+      ${dRow('Vert Max', rd(c.vert_max,2))}
+      ${dRow('Lat Min', rd(c.lat_min,2))}
+      ${dRow('Lat Max', rd(c.lat_max,2))}
+      ${dRow('AP Min', rd(c.ap_min,2))}
+      ${dRow('AP Max', rd(c.ap_max,2))}
+    </div>
+    <div class="detail-section">
+      <div class="detail-section-title">Vel. Máximas por Eje</div>
+      ${dRow('Vel Vert Max', `${rd(c.vel_vert_max,2)} ${s}/s`)}
+      ${dRow('Vel Lat Max', `${rd(c.vel_lat_max,2)} ${s}/s`)}
+      ${dRow('Vel AP Max', `${rd(c.vel_ap_max,2)} ${s}/s`)}
+      ${dRow('% Artefacto', `${rd(c.artifact_pct,1)}%`)}
+    </div>
+  `;
+
+  $('cycle-detail').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  log(`Ciclo C${c.cycle} seleccionado: ${c.lado}, ${Math.round(c.dur_ms)}ms, Vert=${rd(c.max_vert,2)}${s}`, 'var(--indigo)');
+}
+
+function dRow(label, value) {
+  return `<div class="detail-row"><span class="label">${label}</span><span class="value">${value}</span></div>`;
 }
 
 function setAllCycles(v) { state.cycles.forEach(c=>c.enabled=v); populateTable(); update2D(); update3D(); refreshCards(); }

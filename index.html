@@ -132,10 +132,20 @@
         </div>
       </div>
 
+      <!-- Cycle Detail Panel (appears on row click) -->
+      <div class="detail-card" id="cycle-detail" style="display:none">
+        <div class="detail-header">
+          <h3 id="detail-title">Detalle del Ciclo</h3>
+          <button id="btn-close-detail" class="micro-btn">Cerrar</button>
+        </div>
+        <div class="detail-body" id="detail-body"></div>
+      </div>
+
       <div class="table-card" id="cycle-section" style="display:none">
         <div class="table-card-header">
           <h3>Análisis de Ciclos Masticatorios</h3>
           <div class="table-actions">
+            <span id="selected-count" class="selected-count-badge"></span>
             <button id="btn-select-all" class="micro-btn">Seleccionar Todos</button>
             <button id="btn-deselect-all" class="micro-btn">Deseleccionar</button>
           </div>

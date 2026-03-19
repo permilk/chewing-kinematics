@@ -624,6 +624,94 @@ td.lado-centro { color: var(--emerald); font-weight: 700; }
 .cycle-cb:checked { background: var(--indigo); border-color: var(--indigo); }
 .cycle-cb:checked::after { content: '✓'; font-size: 11px; color: white; font-weight: 700; }
 
+/* ── Selected / Active Row ── */
+#cycle-table tbody tr.active-row td {
+  background: var(--indigo-bg) !important;
+  border-bottom-color: rgba(79,70,229,0.15);
+}
+
+#cycle-table tbody tr { cursor: pointer; }
+
+.selected-count-badge {
+  padding: 3px 10px;
+  background: var(--indigo-bg);
+  border: 1px solid rgba(79,70,229,0.15);
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--indigo);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.table-actions { display: flex; gap: 6px; align-items: center; }
+
+/* ── Cycle Detail Panel ── */
+.detail-card {
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  animation: fadeInUp 0.3s var(--ease) both;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--indigo-bg);
+}
+
+.detail-header h3 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--indigo);
+}
+
+.detail-body {
+  padding: 14px 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.detail-section {
+  background: var(--bg-0);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+}
+
+.detail-section-title {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--indigo);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 0;
+  font-size: 0.76rem;
+}
+
+.detail-row .label { color: var(--text-2); }
+
+.detail-row .value {
+  font-weight: 600;
+  color: var(--text-1);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.74rem;
+}
+
 /* ══════════════════════════════════════════════
    LOG BAR
    ══════════════════════════════════════════════ */
